@@ -1,0 +1,14 @@
+message_client:
+  receiver_url: localhost
+  topic: camera
+  qos: 0
+logger:
+  level: DEBUG
+location:
+  latitude:
+  longitude:
+camera:
+  type: MOCK
+  options:
+    resolution: 1920x1080
+    framerate: 24

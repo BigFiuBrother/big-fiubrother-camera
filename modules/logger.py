@@ -1,20 +1,23 @@
 #!/bin/python3
 
 import logging
-import glob
 import os
 
-def set_logger(logging_level):
-  if not os.path.exists('./log/'):
-    os.makedirs('./log/')
+LOGGING_LEVELS = {
+    'DEBUG': 10,
+    'INFO': 20,
+    'WARNING': 30,
+    'ERROR': 40,
+}
 
-  #Para no sobreescribir
-  id = len(glob.glob("./log/*.log")) + 1
+def configure_logger(settings):
+    if not os.path.exists('./log/'):
+        os.makedirs('./log/')
 
-  logging.basicConfig(  level=logging_level,
-                        format='%(asctime)s %(levelname)-8s Camera   '+ str(os.getpid()) +'    %(message)s',
+    logging.basicConfig(level=LOGGING_LEVELS[settings['level']],
+                        format='%(asctime)s %(levelname)-8s {} {} %(message)s'.format(os.getpid()),
                         datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename='./log/Camara'+str(id)+'.log',
-                        filemode='w')
+                        filename='./log/camera.log',
+                        filemode='a')
 
-  logging.getLogger('pika').setLevel(logging.WARNING)
+    logging.getLogger('pika').setLevel(logging.WARNING)

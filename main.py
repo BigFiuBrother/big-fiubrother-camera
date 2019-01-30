@@ -1,57 +1,53 @@
 #!/usr/bin/python3
 
-import json
-from modules.graceful_killer import *
-from modules.logger import *
-from modules.mqtt_wrapper import *
+import yaml
+from modules.graceful_killer import GracefulKiller
+from modules.logger import configure_logger
+from modules.mqtt_wrapper import MqttWrapper
 from datetime import datetime
 from time import sleep
 import base64
 
-print('Configurando camara')
+if __name__ == "__main__":
+    print('Configuring big-fiubrother-camera')
 
-with open('config.json') as config_file:    
-  config = json.load(config_file)
+    with open('config.yml') as config_file:    
+        settings = yaml.load(config_file)
 
-set_logger(config['logger']['level'])
+    configure_logger(settings['logger'])
 
-logging.debug('Creando conexión a servidor CMB en host: %s usando topic: %s',config['network']['cmb_host'], config['network']['topic'])
+    client = MqttWrapper(settings['message_client'])
 
-client = MqttWrapper(config['network']['cmb_host'])
+    signal_handler = SignalHandler()
 
-print('Configuración terminada. Comenzando envió de mensajes')
+  if config['camera']['type'] == "mock": 
+    from modules.mock_camera import *
+    camera = MockCamera() 
+  elif config['camera']['type'] == "pi":
+    from modules.rasp_camera import *
+    camera = RaspCamera(settings['camera']['options'])
 
-sleep_time = 1 / config['camera']['FPS']
-payload = {}
-
-if config['camera']['type'] == "mock": 
-  from modules.mock_camera import *
-  camera = MockCamera() 
-elif config['camera']['type'] == "pi":
-  from modules.rasp_camera import *
-  camera = RaspCamera()
-
-killer = GracefulKiller()
-
-while True:  
-  payload['location'] = config['camera']['location']
-  payload['timestamp'] = datetime.now().strftime('%d-%m-%Y||%H:%M:%S.%f')
-  payload['frame'] = camera.get_frame()
-
-  if payload['frame'] != camera.INVALID():
-    payload['frame'] = payload['frame'].decode('utf-8')
+    print('Configuration finished. Starting to send frames')
     
-    client.send(config['network']['topic'],json.dumps(payload))
+  while not signal_handler.stop_signal_received:  
+    payload['location'] = config['camera']['location']
+    payload['timestamp'] = datetime.now().strftime('%d-%m-%Y||%H:%M:%S.%f')
+    payload['frame'] = camera.get_frame()
 
-    print('Mensaje de frame enviado')
-    logging.debug('Se envió: \'{'+str(payload['location'])+','+payload['timestamp']+'}\'')
+    if payload['frame'] != camera.INVALID():
+      payload['frame'] = payload['frame'].decode('utf-8')
+      
+      client.send(config['network']['topic'],json.dumps(payload))
 
-  sleep(sleep_time)
+      print('Mensaje de frame enviado')
+      logging.debug('Se envió: \'{'+str(payload['location'])+','+payload['timestamp']+'}\'')
 
-  if killer.kill_now:
-    break
+    sleep(sleep_time)
 
-print('Se recibió una señal de salida, cerrando conexión')
+    if killer.kill_now:
+      break
 
-client.close()
-camera.close()
+  print('Se recibió una señal de salida, cerrando conexión')
+
+  client.close()
+  camera.close()

@@ -1,26 +1,28 @@
-#!/bin/python3
-
 import paho.mqtt.client as mqtt
 import uuid
 import logging
 
 class MqttWrapper:
 
-  def __init__(self,host):
-    self.client = mqtt.Client(client_id=uuid.uuid1().hex,
-                              clean_session=True)
-    self.client.connect(host)
-    self.client.loop_start()
+    def __init__(self, settings):
+        self.topic = settings['topic']
+        self.qos = settings['qos']
 
-  def send(self,topic,message):
-    result = self.client.publish( topic=topic,
-                                  payload=message,
-                                  qos=1)
+        self.client = mqtt.Client(client_id=uuid.uuid1().hex,
+                                  clean_session=True)
+        self.client.connect(settings['host'])
+        self.client.loop_start()
+    
+        logging.debug('MqttWrapper created with host: {}, topic: {} and qos: {}'.format(host, topic, qos))
 
-    logging.debug('Se publico en '+topic+' con return value: '+str(result[0]))
+    def send(self, message):
+        result = self.client.publish(topic=self.topic,
+                                     payload=message,
+                                     qos=self.qos)
 
-  def close(self):
-    self.client.loop_stop()
-    self.client.disconnect()
+        logging.debug('Message sent: {}'.format(message))
 
-
+    def close(self):
+        self.client.loop_stop()
+        self.client.disconnect()
+        logging.debug('MqttWrapper connection closed')

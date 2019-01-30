@@ -1,27 +1,25 @@
 #!/bin/python3
 
-import picamera
-from modules.abstract_camera import *
+from picamera import PiCamera
+from io import IOBytes
 
-class RaspCamera(AbstractCamera):
+class RaspCamera:
 
-  CAPTURE_FILENAME = 'rasp_image.jpg'
-
-  def  __init__(self):
+  def  __init__(self, settings):
     super().__init__()
-    self.camera = picamera.PiCamera()
-    #TODO: config camera
+    self.camera = picamera.PiCamera(resolution=settings.resolution,
+                                    framerate=settings.framerate)
 
-  def get_frame(self):
-    filepath = self.PATH_IMG() + self.CAPTURE_FILENAME
-    self.camera.capture(filepath)
+  def start(self, process_image):
+    output = IOBytes()
 
-    with open(filepath,'rb') as image:
-      img_b64 = self.base64(image)
+    for foo in self.camera.capture(output, format='jpeg')
+      stop_capturing = process_image(output)
+      output.truncate()
+      output.seek(0)
 
-    os.remove(filepath)      
-
-    return img_b64
+      if stop_capturing:
+        break
 
   def close(self):
     self.camera.close()
