@@ -1,12 +1,8 @@
 #!/usr/bin/python3
 
 import yaml
-from modules.graceful_killer import GracefulKiller
-from modules.logger import configure_logger
+from modules.helper import configure_logger
 from modules.mqtt_wrapper import MqttWrapper
-from datetime import datetime
-from time import sleep
-import base64
 
 if __name__ == "__main__":
     print('Configuring big-fiubrother-camera')
@@ -16,38 +12,21 @@ if __name__ == "__main__":
 
     configure_logger(settings['logger'])
 
-    client = MqttWrapper(settings['message_client'])
+    message_client = MqttWrapper(settings['message_cl|ient'])
 
-    signal_handler = SignalHandler()
+    image_processor = ImageProcessor(message_client)
 
-  if config['camera']['type'] == "mock": 
-    from modules.mock_camera import *
-    camera = MockCamera() 
-  elif config['camera']['type'] == "pi":
-    from modules.rasp_camera import *
-    camera = RaspCamera(settings['camera']['options'])
+    if config['camera']['type'] == "mock": 
+        from modules.mock_camera import *
+        camera = MockCamera() 
+    elif config['camera']['type'] == "pi":
+        from modules.rasp_camera import *
+        camera = RaspCamera(settings['camera']['options'], image_processor)
 
     print('Configuration finished. Starting to send frames')
     
-  while not signal_handler.stop_signal_received:  
-    payload['location'] = config['camera']['location']
-    payload['timestamp'] = datetime.now().strftime('%d-%m-%Y||%H:%M:%S.%f')
-    payload['frame'] = camera.get_frame()
+    camera.start()
 
-    if payload['frame'] != camera.INVALID():
-      payload['frame'] = payload['frame'].decode('utf-8')
-      
-      client.send(config['network']['topic'],json.dumps(payload))
-
-      print('Mensaje de frame enviado')
-      logging.debug('Se envió: \'{'+str(payload['location'])+','+payload['timestamp']+'}\'')
-
-    sleep(sleep_time)
-
-    if killer.kill_now:
-      break
-
-  print('Se recibió una señal de salida, cerrando conexión')
-
-  client.close()
-  camera.close()
+    # Stops when image processor receives signal
+    image_processor.close()
+    camera.close()

@@ -5,8 +5,8 @@ message_client:
 logger:
   level: DEBUG
 location:
-  latitude:
-  longitude:
+  latitude: -34.5884843
+  longitude: -58.3962122
 camera:
   type: MOCK
   options:
