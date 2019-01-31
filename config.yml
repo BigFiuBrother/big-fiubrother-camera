@@ -8,7 +8,7 @@ location:
   latitude: -34.5884843
   longitude: -58.3962122
 camera:
-  type: MOCK
+  type: VideoCamera
   options:
     resolution: 1920x1080
     framerate: 24

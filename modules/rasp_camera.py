@@ -9,12 +9,12 @@ class RaspCamera:
                                     framerate=settings.framerate)
 
   def start(self, image_processor):
-    output = IOBytes()
+    image = IOBytes()
 
-    for foo in self.camera.capture_continous(output, format='jpeg')
-      stop_capturing = image_processor.process(output)
-      output.truncate()
-      output.seek(0)
+    for foo in self.camera.capture_continous(image, format='jpeg')
+      stop_capturing = image_processor.process(image)
+      image.truncate()
+      image.seek(0)
 
       if stop_capturing:
         break
