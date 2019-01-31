@@ -1,5 +1,5 @@
 from picamera import PiCamera
-from io import IOBytes
+from io import BytesIO
 
 class RaspCamera:
 
@@ -9,9 +9,9 @@ class RaspCamera:
                                     framerate=settings.framerate)
 
   def start(self, image_processor):
-    image = IOBytes()
+    image = BytesIO()
 
-    for foo in self.camera.capture_continous(image, format='jpeg')
+    for foo in self.camera.capture_continous(image, format='jpeg'):
       stop_capturing = image_processor.process(image)
       image.truncate()
       image.seek(0)

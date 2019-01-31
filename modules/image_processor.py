@@ -1,5 +1,6 @@
 from modules.signal_handler import SignalHandler 
 from datetime import datetime
+import logging
 import base64
 import json
 
@@ -10,10 +11,10 @@ class ImageProcessor:
         self.signal_handler = SignalHandler()
         self.location = [location['latitude'], location['longitude']]
 
-    def process(image):
+    def process(self, image):
         payload = {}
 
-        payload['location'] = config['camera']['location']
+        payload['location'] = self.location
         payload['timestamp'] = datetime.now().strftime('%d-%m-%Y||%H:%M:%S.%f')
         payload['frame'] = base64.b64encode(image).decode('utf-8')
 
@@ -23,7 +24,7 @@ class ImageProcessor:
 
         logging.debug('Message sent: %d'.format(message))
 
-        return signal_handler.stop_signal_received
+        return self.signal_handler.stop_signal_received
 
-    def close():
+    def close(self):
         self.message_client.close()

@@ -3,10 +3,11 @@
 import yaml
 from modules.helper import configure_logger
 from modules.mqtt_wrapper import MqttWrapper
+from modules.image_processor import ImageProcessor
 from modules.camera_factory import CameraFactory
 
 if __name__ == "__main__":
-    print('Configuring big-fiubrother-camera')
+    print('[*] Configuring big-fiubrother-camera')
 
     with open('config.yml') as config_file:    
         settings = yaml.load(config_file)
@@ -15,18 +16,17 @@ if __name__ == "__main__":
 
     message_client = MqttWrapper(settings['message_client'])
 
-    image_processor = ImageProcessor(message_client)
+    image_processor = ImageProcessor(message_client, settings['location'])
 
-    camera = CameraFactory(settings['camera']['type'], 
-                           settings['camera']['options'], 
-                           image_processor)
+    camera = CameraFactory.build(settings['camera']['type'], 
+                                 settings['camera']['options'])
 
-    print('Configuration finished. Starting to send frames')
+    print('[*] Configuration finished. Starting to send frames')
     
-    camera.start()
+    camera.start(image_processor)
 
     # Stops when image processor receives signal
-    print('Stopping camera')
+    print('[*] Stopping camera')
     
     image_processor.close()
     camera.close()

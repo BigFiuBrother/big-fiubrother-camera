@@ -13,7 +13,7 @@ def configure_logger(settings):
         os.makedirs('./log/')
 
     logging.basicConfig(level=LOGGING_LEVELS[settings['level']],
-                        format='%(asctime)s %(levelname)-8s {} {} %(message)s'.format(os.getpid()),
+                        format='%(asctime)s %(levelname)-8s {} %(message)s'.format(os.getpid()),
                         datefmt='%a, %d %b %Y %H:%M:%S',
                         filename='./log/camera.log',
                         filemode='a')
