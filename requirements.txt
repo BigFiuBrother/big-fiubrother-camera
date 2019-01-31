@@ -1,3 +1,4 @@
 paho-mqtt==1.4
 pyyaml
 opencv-python
+picamera; platform_machine == 'armv7l'

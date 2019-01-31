@@ -5,8 +5,8 @@ class RaspCamera:
 
   def  __init__(self, settings):
     super().__init__()
-    self.camera = picamera.PiCamera(resolution=settings.resolution,
-                                    framerate=settings.framerate)
+    self.camera = PiCamera(resolution=settings.resolution,
+                           framerate=settings.framerate)
 
   def start(self, image_processor):
     image = BytesIO()
