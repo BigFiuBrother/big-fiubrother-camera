@@ -11,7 +11,7 @@ class RaspCamera:
   def start(self, image_processor):
     image = BytesIO()
 
-    for foo in self.camera.capture_continous(image, format='jpeg'):
+    for foo in self.camera.capture_continuous(image, format='jpeg'):
       stop_capturing = image_processor.process(image)
       image.truncate()
       image.seek(0)
