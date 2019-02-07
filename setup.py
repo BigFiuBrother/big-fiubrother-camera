@@ -5,7 +5,7 @@ with open("README.md", 'r') as f:
 
 setup(
    name='big-fiubrother-camera',
-   version='0.0.2',
+   version='0.1.0',
    description='Big Fiubrother Camera application',
    license="GPLv3",
    long_description=long_description,
