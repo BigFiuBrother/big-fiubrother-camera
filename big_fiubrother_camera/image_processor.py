@@ -1,8 +1,7 @@
 from big_fiubrother_camera.signal_handler import SignalHandler 
 from datetime import datetime
 import logging
-import base64
-import json
+import pickle
 
 class ImageProcessor:
 
@@ -16,14 +15,12 @@ class ImageProcessor:
 
         payload['location'] = self.location
         payload['timestamp'] = datetime.now().strftime('%d-%m-%Y||%H:%M:%S.%f')
-        payload['frameBytes'] = base64.b64encode(image).decode('utf-8')
+        payload['frameBytes'] = image
         payload['frameId'] = 'tu vieja'
 
-        message = json.dumps(payload)
+        self.message_client.send(pickle.dumps(message))
 
-        self.message_client.send(message)
-
-        logging.debug('Message sent: %d'.format(message))
+        # logging.debug('Message sent: %d'.format(message))
 
         return self.signal_handler.stop_signal_received
 
