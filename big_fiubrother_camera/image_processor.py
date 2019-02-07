@@ -16,8 +16,8 @@ class ImageProcessor:
 
         payload['location'] = self.location
         payload['timestamp'] = datetime.now().strftime('%d-%m-%Y||%H:%M:%S.%f')
-        payload['frame_bytes'] = base64.b64encode(image).decode('utf-8')
-        payload['frame_id'] = 'tu vieja'
+        payload['frameBytes'] = base64.b64encode(image).decode('utf-8')
+        payload['frameId'] = 'tu vieja'
 
         message = json.dumps(payload)
 
