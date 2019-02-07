@@ -2,7 +2,6 @@ from big_fiubrother_camera.signal_handler import SignalHandler
 from big_fiubrother_core.camera_message import CameraMessage
 from datetime import datetime
 import logging
-import pickle
 
 class ImageProcessor:
 
@@ -17,7 +16,7 @@ class ImageProcessor:
                                 image,
                                 timestamp)
 
-        self.message_client.send(pickle.dumps(message))
+        self.message_client.send(message.encode())
 
         logging.debug('Message sent')
 
