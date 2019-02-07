@@ -1,3 +1,6 @@
 log/
 modules/__pycache__
 big-fiubrother-camera-venv/
+big_fiubrother_camera.egg-info/
+dist/
+build/

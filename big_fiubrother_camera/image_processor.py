@@ -1,4 +1,4 @@
-from modules.signal_handler import SignalHandler 
+from big_fiubrother_camera.signal_handler import SignalHandler 
 from datetime import datetime
 import logging
 import base64
