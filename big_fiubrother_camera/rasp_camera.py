@@ -10,7 +10,7 @@ class RaspCamera:
     def start(self, image_processor):
         image_buffer = BytesIO()
 
-        for foo in self.camera.capture_continuous(image_buffer, format='jpeg'):
+        for foo in self.camera.capture_continuous(image_buffer, format='jpeg', use_video_port=True):
             image_buffer.seek(0)
             image = image_buffer.read()
 
