@@ -10,7 +10,7 @@ setup(
    license="GPLv3",
    long_description=long_description,
    long_description_content_type='text/markdown',
-   scripts = ['run.py'],
+   scripts = ['camera'],
    author='Eduardo Neira',
    author_email='aneira@fi.uba.ar',
    packages=['big_fiubrother_camera'],

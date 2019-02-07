@@ -4,14 +4,14 @@ from io import BytesIO
 class RaspCamera:
 
     def  __init__(self, settings):
-        super().__init__()
         self.camera = PiCamera(resolution=settings['resolution'],
                                framerate=settings['framerate'])
 
     def start(self, image_processor):
         image_buffer = BytesIO()
 
-        for foo in self.camera.capture_continuous(image_buffer, format='jpeg', use_video_port=True):
+        for foo in self.camera.capture_continuous(image_buffer, format='jpeg'):
+            image_buffer.seek(0)
             image = image_buffer.read()
 
             stop_capturing = image_processor.process(image)
