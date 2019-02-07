@@ -11,7 +11,7 @@ setup(
    long_description=long_description,
    long_description_content_type='text/markdown',
    scripts = ['camera'],
-   author='Eduardo Neira',
+   author='Eduardo Neira, Gabriel Gayoso',
    author_email='aneira@fi.uba.ar',
    packages=['big_fiubrother_camera'],
    url= 'https://github.com/BigFiuBrother/big-fiubrother-camera'

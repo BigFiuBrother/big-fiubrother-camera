@@ -6,10 +6,8 @@ message_client:
   qos: 0
 logger:
   level: WARNING
-location:
-  latitude: -34.5884843
-  longitude: -58.3962122
 camera:
+  id: 'camera1'
   type: VideoCamera
   options:
     resolution: 1920x1080

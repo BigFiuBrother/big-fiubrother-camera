@@ -3,7 +3,8 @@ from io import BytesIO
 
 class RaspCamera:
 
-    def  __init__(self, settings):
+    def  __init__(self, camera_id, settings):
+        self.camera_id = camera_id
         self.camera = PiCamera(resolution=settings['resolution'],
                                framerate=settings['framerate'])
 
@@ -14,7 +15,7 @@ class RaspCamera:
             image_buffer.seek(0)
             image = image_buffer.read()
 
-            stop_capturing = image_processor.process(image)
+            stop_capturing = image_processor.process(self.camera_id, image)
             image_buffer.truncate()
             image_buffer.seek(0)
 

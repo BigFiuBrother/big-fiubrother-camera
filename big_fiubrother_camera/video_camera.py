@@ -4,9 +4,10 @@ import cv2
 
 class VideoCamera:
 
-  def  __init__(self, settings):
+  def  __init__(self, camera_id, settings):
     super().__init__()
     self.camera = cv2.VideoCapture(0)
+    self.camera_id = camera_id
     self.settings = settings
 
   def start(self, image_processor):
@@ -22,7 +23,7 @@ class VideoCamera:
         encoding_success, image = cv2.imencode('.jpeg', frame)
 
         if encoding_success:
-          stop_capturing = image_processor.process(image.tobytes())
+          stop_capturing = image_processor.process(self.camera_id, image.tobytes())
 
       sleep(sleep_time)
 

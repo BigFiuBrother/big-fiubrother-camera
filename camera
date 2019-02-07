@@ -16,10 +16,9 @@ if __name__ == "__main__":
 
     message_client = MqttWrapper(settings['message_client'])
 
-    image_processor = ImageProcessor(message_client, settings['location'])
+    image_processor = ImageProcessor(message_client)
 
-    camera = CameraFactory.build(settings['camera']['type'], 
-                                 settings['camera']['options'])
+    camera = CameraFactory.build(settings['camera'])
 
     print('[*] Configuration finished. Starting to send frames')
     
