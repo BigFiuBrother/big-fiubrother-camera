@@ -1,5 +1,3 @@
-#!./big-fiubrother-camera-venv/bin/python3
-
 import yaml
 from big_fiubrother_camera.helper import configure_logger
 from big_fiubrother_camera.mqtt_wrapper import MqttWrapper

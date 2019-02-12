@@ -1,7 +1,7 @@
 message_client:
   user: fiubrother
   password: alwayswatching
-  receiver_url: 192.168.0.19 # ec2-34-222-140-191.us-west-2.compute.amazonaws.com
+  connection_url: 192.168.0.19 # ec2-34-222-140-191.us-west-2.compute.amazonaws.com
   topic: camera1
   qos: 0
 logger:

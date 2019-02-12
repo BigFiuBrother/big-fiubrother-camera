@@ -1,7 +1,7 @@
-from big_fiubrother_camera.signal_handler import SignalHandler 
-from big_fiubrother_core.camera_message import CameraMessage
-from datetime import datetime
 import logging
+from datetime import datetime
+from big_fiubrother_core import SignalHandler 
+from big_fiubrother_core.messages import CameraMessage
 
 class ImageProcessor:
 

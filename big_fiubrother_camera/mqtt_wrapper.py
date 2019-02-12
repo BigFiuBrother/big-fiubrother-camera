@@ -5,7 +5,7 @@ import logging
 class MqttWrapper:
 
     def __init__(self, settings):
-        self.host = settings['receiver_url']
+        self.host = settings['connection_url']
         self.topic = settings['topic']
         self.qos = settings['qos']
 
