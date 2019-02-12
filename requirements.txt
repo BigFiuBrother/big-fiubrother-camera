@@ -2,4 +2,4 @@ picamera; platform_machine == 'armv7l'
 paho-mqtt==1.4
 pyyaml
 opencv-python
-big-fiubrother-core
+big-fiubrother-core >= 0.0.3
