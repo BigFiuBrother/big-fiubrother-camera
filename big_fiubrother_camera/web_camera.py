@@ -2,7 +2,8 @@ from time import sleep
 from io import BytesIO
 import cv2
 
-class VideoCamera:
+
+class WebCamera:
 
   def  __init__(self, id, settings):
     super().__init__()

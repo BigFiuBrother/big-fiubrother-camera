@@ -1,26 +1,32 @@
 from picamera import PiCamera
 from io import BytesIO
 
+
 class RaspCamera:
 
-    def  __init__(self, id, settings):
+    def  __init__(self, id, configuration, queue):
         self.id = id
-        self.camera = PiCamera(resolution=settings['resolution'],
-                               framerate=settings['framerate'])
+        self.queue = queue
+        self.running = False
+        
+        self.recording_time = configuration['recording_time']
+        self.camera = PiCamera(resolution=configuration['resolution'], framerate=configuration['framerate'])
 
     def start(self, image_processor):
-        image_buffer = BytesIO()
+        self.running = True
 
-        for foo in self.camera.capture_continuous(image_buffer, format='jpeg', use_video_port=True):
-            image_buffer.seek(0)
-            image = image_buffer.read()
+        while self.running:
+            buffer = BytesIO()
+            
+            #Quality should be between 20 and 25 according to documentation
+            camera.start_recording(buffer, format='h264', quality=21)
+            camera.wait_recording(self.recording_time)
+            camera.stop_recording()
 
-            stop_capturing = image_processor.process(self.id, image)
-            image_buffer.truncate()
-            image_buffer.seek(0)
+            queue.put({'id': self.id, 'buffer': buffer})
 
-            if stop_capturing:
-                break
+    def stop(self):
+        self.running = False
 
     def close(self):
         self.camera.close()

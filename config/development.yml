@@ -8,7 +8,7 @@ logger:
   level: WARNING
 camera:
   id: 'camera1'
-  type: VideoCamera
+  type: WebCamera
   options:
     resolution: 1920x1080
     framerate: 24
