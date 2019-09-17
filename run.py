@@ -22,13 +22,14 @@ if __name__ == "__main__":
     queue = Queue()
     message_client = VideoChunkMessageProducer(configuration['message_client'], queue)
     camera_recorder = build_camera_recoder(settings['camera'], queue)
-    signal_handler = SignalHandler(processes=[message_client, camera_recorder])
+    signal_handler = SignalHandler(callback=camera_recorder.stop)
 
     print('[*] Configuration finished. Starting big-fiubrother-camera!')
     
     message_client.start()
     camera_recorder.start()
 
+    message_client.stop()
     message_client.wait()
     camera.close()
 

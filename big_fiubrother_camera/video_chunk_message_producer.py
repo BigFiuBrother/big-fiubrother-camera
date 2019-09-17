@@ -14,15 +14,18 @@ class VideoChunkMessageProducer(StoppableThread):
 
     def _execute(self):
         camera_output = self.queue.get()
-        camera_output['buffer'].seek(0)
+        
+        if camera_output is not None:
+            camera_output['buffer'].seek(0)
 
-        timestamp = datetime.now().strftime('%d-%m-%Y||%H:%M:%S.%f')
+            timestamp = datetime.now().strftime('%d-%m-%Y||%H:%M:%S.%f')
 
-        message = VidedChunkMessage(camera_output['id'],
-                                    camera_output['buffer'].read(),
-                                    timestamp)
+            message = VidedChunkMessage(camera_output['id'],
+                                        camera_output['buffer'].read(),
+                                        timestamp)
 
-        self.producer.produce(message)
+            self.producer.produce(message)
 
     def _stop(self):
+        self.queue.put(None)
         self.producer.flush()
