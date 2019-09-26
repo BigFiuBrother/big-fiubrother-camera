@@ -20,7 +20,7 @@ if __name__ == "__main__":
         configuration = yaml.safe_load(config_file)
 
     queue = Queue()
-    message_client = VideoChunkMessageProducer(configuration['message_client'], queue)
+    message_client = VideoChunkMessagePublisher(configuration['message_client'], queue)
     camera_recorder = build_camera_recoder(settings['camera'], queue)
     signal_handler = SignalHandler(callback=camera_recorder.stop)
 
