@@ -3,7 +3,7 @@
 import yaml
 import argparse
 from queue import Queue
-from big_fiubrother_camera.video_chunk_message_producer import VideoChunkMessageProducer
+from big_fiubrother_camera.video_chunk_message_publisher import VideoChunkMessagePublisher
 from big_fiubrother_camera.camera_factory import build_camera_recoder
 from big_fiubrother_core import SignalHandler
 
