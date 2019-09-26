@@ -20,17 +20,17 @@ if __name__ == "__main__":
         configuration = yaml.safe_load(config_file)
 
     queue = Queue()
-    message_client = VideoChunkMessagePublisher(configuration['message_client'], queue)
-    camera_recorder = build_camera_recoder(settings['camera'], queue)
-    signal_handler = SignalHandler(callback=camera_recorder.stop)
+    publisher = VideoChunkMessagePublisher(configuration['message_client'], queue)
+    recorder = build_camera_recoder(settings['camera'], queue)
+    signal_handler = SignalHandler(callback=recorder.stop)
 
     print('[*] Configuration finished. Starting big-fiubrother-camera!')
     
-    message_client.start()
-    camera_recorder.start()
+    publisher.start()
+    recorder.start()
 
-    message_client.stop()
-    message_client.wait()
+    publisher.stop()
+    publisher.wait()
     camera.close()
 
     print('[*] big-fiubrother-camera stopped!')
