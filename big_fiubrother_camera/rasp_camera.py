@@ -8,11 +8,11 @@ class RaspCamera:
         self.id = id
         self.queue = queue
         self.running = False
-        
         self.recording_time = configuration['recording_time']
+        
         self.camera = PiCamera(resolution=configuration['resolution'], framerate=configuration['framerate'])
 
-    def start(self, image_processor):
+    def start(self):
         self.running = True
 
         while self.running:

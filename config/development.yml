@@ -1,7 +1,7 @@
-message_client:
+publisher:
   username: fiubrother
   password: alwayswatching
-  host: 192.168.0.19 # ec2-34-222-140-191.us-west-2.compute.amazonaws.com
+  host: 192.168.0.28
   exchange: fiubrother
   queue: video_chunks
 camera:
