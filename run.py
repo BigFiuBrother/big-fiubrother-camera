@@ -2,7 +2,7 @@
 
 from queue import Queue
 from big_fiubrother_camera import VideoChunkMessagePublisher
-from big_fiubrother_camera import build_camera_recoder
+from big_fiubrother_camera import build_camera_recorder
 from big_fiubrother_core import SignalHandler
 from big_fiubrother_core import setup
 
