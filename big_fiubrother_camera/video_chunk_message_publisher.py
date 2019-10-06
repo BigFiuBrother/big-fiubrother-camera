@@ -6,6 +6,7 @@ from big_fiubrother_core import StoppableThread
 class VideoChunkMessagePublisher(StoppableThread):
 
     def __init__(self, publisher_configuration, queue):
+        super().__init__()
         self.publisher_configuration = publisher_configuration
         self.queue = queue
 
