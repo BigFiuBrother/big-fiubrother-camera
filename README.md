@@ -13,6 +13,7 @@ In order to install big-fiubrother-camera, a virtual environment is recommended.
 
 ```
 python3 -m venv big-fiubrother-camera-venv
+source big-fiubrother-camera-venv/bin/activate
 ```
 Now, to install all the dependencies, execute the following script: 
 

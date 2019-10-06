@@ -1,4 +1,2 @@
-picamera; platform_machine == 'armv7l'
-pyyaml
-opencv-python
+picamera
 big-fiubrother-core
