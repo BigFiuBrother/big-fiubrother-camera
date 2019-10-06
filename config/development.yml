@@ -3,7 +3,7 @@ publisher:
   password: alwayswatching
   host: 192.168.1.28
   exchange: fiubrother
-  queue: video_chunks
+  routing_key: video_chunks
 camera:
   id: 'CAMERA_1'
   type: rasp_camera
