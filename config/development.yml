@@ -8,6 +8,6 @@ camera:
   id: 'CAMERA_1'
   type: rasp_camera
   options:
-    resolution: 1920x1080
+    resolution: 1280x720
     recording_time: 1
     framerate: 24
