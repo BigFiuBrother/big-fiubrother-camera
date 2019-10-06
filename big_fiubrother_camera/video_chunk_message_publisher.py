@@ -15,9 +15,8 @@ class VideoChunkMessagePublisher(StoppableThread):
         self.publisher = Publisher(self.publisher_configuration)
 
     def _execute(self):
-        print('Waiting for message')
         camera_output = self.queue.get()
-        print('Messaged received!')
+
         if camera_output is not None:
             camera_output['buffer'].seek(0)
 
