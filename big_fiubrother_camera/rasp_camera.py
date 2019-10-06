@@ -19,11 +19,11 @@ class RaspCamera:
             buffer = BytesIO()
             
             #Quality should be between 20 and 25 according to documentation
-            camera.start_recording(buffer, format='h264', quality=21)
-            camera.wait_recording(self.recording_time)
-            camera.stop_recording()
+            self.camera.start_recording(buffer, format='h264', quality=21)
+            self.camera.wait_recording(self.recording_time)
+            self.camera.stop_recording()
 
-            queue.put({'id': self.id, 'buffer': buffer})
+            self.queue.put({'id': self.id, 'buffer': buffer})
 
     def stop(self):
         self.running = False
