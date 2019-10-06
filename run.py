@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     queue = Queue()
     publisher = VideoChunkMessagePublisher(configuration['publisher'], queue)
-    recorder = build_camera_recoder(settings['camera'], queue)
+    recorder = build_camera_recorder(settings['camera'], queue)
     signal_handler = SignalHandler(callback=recorder.stop)
 
     print('[*] Configuration finished. Starting big-fiubrother-camera!')
