@@ -23,7 +23,7 @@ class VideoChunkMessagePublisher(StoppableThread):
 
             timestamp = datetime.now().strftime('%d-%m-%Y||%H:%M:%S.%f')
 
-            message = VidedChunkMessage(camera_output['id'],
+            message = VideoChunkMessage(camera_output['id'],
                                         camera_output['buffer'].read(),
                                         timestamp)
 
