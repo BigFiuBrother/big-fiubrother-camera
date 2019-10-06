@@ -23,6 +23,6 @@ if __name__ == "__main__":
 
     publisher.stop()
     publisher.wait()
-    camera.close()
+    recorder.close()
 
     print('[*] big-fiubrother-camera stopped!')
