@@ -18,6 +18,6 @@ def build_camera_recorder(configuration, queue):
     normalized_camera_type = re.sub('_', '', configuration['type'].lower())
 
     if normalized_camera_type in BUILDING_MAP:
-        BUILDING_MAP[normalized_camera_type](configuration, queue)
+        return BUILDING_MAP[normalized_camera_type](configuration, queue)
     else:
         raise Exception('Invalid camera type')
