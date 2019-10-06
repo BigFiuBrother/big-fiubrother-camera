@@ -15,7 +15,7 @@ class VideoChunkMessagePublisher(StoppableThread):
 
     def _execute(self):
         camera_output = self.queue.get()
-        
+        print('Messaged received!')
         if camera_output is not None:
             camera_output['buffer'].seek(0)
 
