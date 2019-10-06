@@ -1,6 +1,7 @@
 from big_fiubrother_core.message_clients.rabbitmq import Publisher
 from big_fiubrother_core.messages import VideoChunkMessage
 from big_fiubrother_core import StoppableThread
+import datetime
 
 
 class VideoChunkMessagePublisher(StoppableThread):
