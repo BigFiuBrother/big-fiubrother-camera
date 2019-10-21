@@ -1,11 +1,11 @@
 # big-fiubrother-camera
 
-Big fiubrother camera application for surveillance. 
+Big fiubrother camera application for surveillance. This application is meant to run on a Raspberry PI.
 
 ### Prerequisites
 
 - python3
-- camera/webcam
+- Raspberry PI with PiCamera
 
 ### Install
 
@@ -23,7 +23,7 @@ python3 -m pip install -r requirements.txt
 
 ### Configuration
 
-Before running, proper configuration should be considered. All configurable parameters are stored in *config.yml*.
+Before running, proper configuration should be considered. Default parameters for development are stored in *config/development.yml*.
 
 ### Run
 
