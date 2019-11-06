@@ -7,7 +7,7 @@ publisher:
 camera:
   id: 'CAMERA_1'
   type: rasp_camera
-  options:
+video_recorder:
     resolution: 1280x720
     recording_time: 1
     framerate: 24
