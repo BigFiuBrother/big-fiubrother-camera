@@ -26,7 +26,7 @@ class RecordVideoFromPiCamera(Task):
             self.camera.wait_recording(self.recording_time)
             self.camera.stop_recording()
 
-            self.queue.put(buffer)
+            self.output_queue.put(buffer)
 
     def stop(self):
         self.running = False
