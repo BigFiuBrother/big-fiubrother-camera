@@ -6,7 +6,6 @@ publisher:
   routing_key: video_chunks
 camera:
   id: 'CAMERA_1'
-  type: rasp_camera
 video_recorder:
     resolution: 1280x720
     recording_time: 1
