@@ -9,7 +9,8 @@ from big_fiubrother_core import (
     SignalHandler,
     StoppableThread,
     PublishToRabbitMQ,
-    setup
+    setup,
+    run
 )
 
 
@@ -19,11 +20,12 @@ if __name__ == "__main__":
     print('[*] Configuring big-fiubrother-camera')
 
     recorder_to_builder_queue = Queue()
-    builder_to_publisher_queue = Queue()
 
     recorder = StoppableThread(
         RecordVideoFromPiCamera(configuration=configuration['video_recorder'],
                                 output_queue=recorder_to_builder_queue))
+    
+    builder_to_publisher_queue = Queue()
 
     message_builder = StoppableThread(
         BuildVideoChunkMessage(configuration=configuration['camera'],
@@ -35,18 +37,9 @@ if __name__ == "__main__":
             configuration=configuration['publisher'],
             input_queue=builder_to_publisher_queue))
 
-    signal_handler = SignalHandler(callback=recorder.stop)
-
     print('[*] Configuration finished. Starting big-fiubrother-camera!')
 
-    publisher.start()
-    message_builder.start()
-    recorder.run()
-
-    # STOP Signal received!
-    message_builder.stop()
-    publisher.stop()
-    message_builder.wait()
-    publisher.wait()
+    run(processes=[message_builder, publisher],
+        main_process=recorder)
 
     print('[*] big-fiubrother-camera stopped!')
