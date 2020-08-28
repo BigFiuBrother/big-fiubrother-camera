@@ -1,5 +1,5 @@
 publisher:
-  host: 192.168.1.28
+  host: localhost
   username: fiubrother
   password: alwayswatching
   exchange: fiubrother
@@ -7,6 +7,7 @@ publisher:
 camera:
   id: 'CAMERA_1'
 video_recorder:
-    resolution: 1280x720
-    recording_time: 1
-    framerate: 24
+    resolution: 640x480
+    recording_time: 5
+    framerate: 25
+    type: opencv_webcam

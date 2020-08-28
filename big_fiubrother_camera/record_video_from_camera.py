@@ -1,9 +1,9 @@
-from picamera import PiCamera
+from big_fiubrother_camera.camera_factory import CameraFactory
 from big_fiubrother_core import Task
 from io import BytesIO
 
 
-class RecordVideoFromPiCamera(Task):
+class RecordVideoFromCamera(Task):
 
     def __init__(self, configuration, output_queue):
         self.running = False
@@ -11,11 +11,11 @@ class RecordVideoFromPiCamera(Task):
         self.recording_time = configuration['recording_time']
         self.resolution = configuration['resolution']
         self.framerate = configuration['framerate']
+        self.configuration = configuration
 
     def init(self):
         self.running = True
-        self.camera = PiCamera(resolution=self.resolution,
-                               framerate=self.framerate)
+        self.camera = CameraFactory.build(self.configuration)
 
     def execute(self):
         while self.running:

@@ -3,7 +3,7 @@
 from queue import Queue
 from big_fiubrother_camera import (
     BuildVideoChunkMessage,
-    RecordVideoFromPiCamera
+    RecordVideoFromCamera
 )
 from big_fiubrother_core import (
     SignalHandler,
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     recorder_to_builder_queue = Queue()
 
     recorder = StoppableThread(
-        RecordVideoFromPiCamera(configuration=configuration['video_recorder'],
+        RecordVideoFromCamera(configuration=configuration['video_recorder'],
                                 output_queue=recorder_to_builder_queue))
     
     builder_to_publisher_queue = Queue()
