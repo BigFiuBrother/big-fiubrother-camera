@@ -23,16 +23,13 @@ class OpenCVWebcam:
         self.video_writer = cv2.VideoWriter(self.temp_file, fourcc, self.framerate, self.resolution)
 
     def wait_recording(self, seconds):
-        frames_to_record = self.framerate * seconds
-        frames_recorded = 0
 
         start_time = time.time()
         # Record from webcam to file
         while self.video_capture.isOpened():
             ok, frame = self.video_capture.read()
-            if ok and frames_recorded < frames_to_record:
+            if ok:
                 self.video_writer.write(frame)
-                frames_recorded += 1
 
             elapsed_time = time.time() - start_time
 
