@@ -1,13 +1,16 @@
+id: 'camera-1'
 publisher:
   host: localhost
   username: fiubrother
   password: alwayswatching
   exchange: fiubrother
   routing_key: video_chunks
-camera:
-  id: 'CAMERA_1'
 video_recorder:
-    resolution: 640x480
+    resolution: 1024x768
     recording_time: 5
-    framerate: 25
-    type: opencv_webcam
+    framerate: 30
+video_storage:
+  host: localhost
+  port: 9500
+  access_key: fiubrother
+  secret_key: alwayswatching

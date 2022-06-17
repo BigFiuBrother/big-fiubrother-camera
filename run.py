@@ -1,45 +1,40 @@
 #!/usr/bin/env python3
 
-from queue import Queue
-from big_fiubrother_camera import (
-    BuildVideoChunkMessage,
-    RecordVideoFromCamera
-)
-from big_fiubrother_core import (
-    SignalHandler,
-    StoppableThread,
-    PublishToRabbitMQ,
-    setup,
-    run
-)
+from big_fiubrother_core_application import run
+from src.video_recorder import VideoRecorder
+from src.video_publisher import VideoPublisher
+from src.async_task import AsyncTask
+from src.inter_threading_queue import InterThreadingQueue
+
+
+VIDEO_RECORDER_KEY = 'video_recorder'
 
 
 if __name__ == "__main__":
-    configuration = setup('Big Fiubrother Camera Application')
+    with run('big-fiubrother-camera') as application:
+        configuration = application.runtime_context.configuration
 
-    print('[*] Configuring big-fiubrother-camera')
+        # Used as communication between threads
+        queue = InterThreadingQueue()
 
-    recorder_to_builder_queue = Queue()
+        # Create an asynchronous task to record video
+        video_recorder = VideoRecorder(configuration[VIDEO_RECORDER_KEY], queue)
+        recording_task = AsyncTask(video_recorder.record)
 
-    recorder = StoppableThread(
-        RecordVideoFromCamera(configuration=configuration['video_recorder'],
-                                output_queue=recorder_to_builder_queue))
-    
-    builder_to_publisher_queue = Queue()
+        # Create an asynchronous task to publish video
+        video_publisher = VideoPublisher(queue, configuration)
+        publishing_task = AsyncTask(video_publisher.publish)
 
-    message_builder = StoppableThread(
-        BuildVideoChunkMessage(configuration=configuration['camera'],
-                               input_queue=recorder_to_builder_queue,
-                               output_queue=builder_to_publisher_queue))
+        # Wait until the application is stopped
+        application.wait()
 
-    publisher = StoppableThread(
-        PublishToRabbitMQ(
-            configuration=configuration['publisher'],
-            input_queue=builder_to_publisher_queue))
+        # Stop and wait for async tasks
+        recording_task.stop()
+        publishing_task.stop()
 
-    print('[*] Configuration finished. Starting big-fiubrother-camera!')
+        recording_task.wait()
+        publishing_task.wait()
 
-    run(processes=[message_builder, publisher],
-        main_process=recorder)
+    print('[*] big-fiubrother-camera stopped successfully!')
 
-    print('[*] big-fiubrother-camera stopped!')
+
