@@ -1,6 +1,6 @@
 from picamera import PiCamera
 from datetime import datetime
-from .video import get_filename, FORMAT
+from .local_video import get_filename, create_local_storage, FORMAT
 
 
 class VideoRecorder:
@@ -9,17 +9,18 @@ class VideoRecorder:
         self.camera = PiCamera(resolution=configuration['resolution'], framerate=configuration['framerate'])
         self.recording_time = configuration['recording_time']
         self.output_queue = output_queue
+        create_local_storage()
 
     def record(self, is_running):
-        now = datetime.now()
-        self.camera.start_recording(get_filename(now), format=FORMAT, quality=25)
+        timestamp = datetime.now().timestamp()
+        self.camera.start_recording(get_filename(timestamp), format=FORMAT, quality=25)
 
         while is_running():
             self.camera.wait_recording(self.recording_time)
-            self.output_queue.put(now)
+            self.output_queue.put(timestamp)
 
-            now = datetime.now()
-            self.camera.split_recording(get_filename(now), format=FORMAT, quality=25)
+            timestamp = datetime.now().timestamp()
+            self.camera.split_recording(get_filename(timestamp), format=FORMAT, quality=25)
 
         self.camera.stop_recording()
         self.camera.close()

@@ -1,4 +1,4 @@
-from .video import get_filename
+from .local_video import get_filename, delete_video
 from big_fiubrother_core_events.message_clients.rabbitmq import Publisher
 from big_fiubrother_core_events.messages.marshalling import encode_message
 from big_fiubrother_core_events.messages.video_chunk_message import VideoChunkMessage
@@ -21,11 +21,14 @@ class VideoPublisher:
         while is_running():
             self.input_queue.get(self._publish)
 
-    def _publish(self, time):
+    def _publish(self, timestamp):
+        message = VideoChunkMessage(self.camera_id, timestamp)
+
         # Store video chunk in the cloud
-        filename = get_filename(time)
-        self.storage.store_file(f'{self.camera_id}-{filename}', filename)
+        self.storage.store_file(message.id(), get_filename(timestamp))
 
         # Send event of new video chunk
-        message = VideoChunkMessage(self.camera_id, time.timestamp())
         self.publisher.publish(encode_message(message))
+
+        # Delete local video chunk
+        delete_video(timestamp)

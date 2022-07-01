@@ -25,6 +25,8 @@ if __name__ == "__main__":
         video_publisher = VideoPublisher(queue, configuration)
         publishing_task = AsyncTask(video_publisher.publish)
 
+        print('[*] big-fiubrother-camera started successfully!')
+
         # Wait until the application is stopped
         application.wait()
 
